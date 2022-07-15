@@ -1,5 +1,6 @@
 import Banner from '@/components/Banner';
 import Header from '@/components/Header';
+import Row from '@/components/Row';
 import { Movie } from '@/models/movies';
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
@@ -7,8 +8,8 @@ import { useEffect } from 'react';
 import { moviesApi } from '../api-client';
 
 export interface HomeProps {
-    trendingNow: Movie[];
     netflixOriginals: Movie[];
+    trendingNow: Movie[];
     topRated: Movie[];
     actionMovies: Movie[];
     comedyMovies: Movie[];
@@ -19,8 +20,8 @@ export interface HomeProps {
 
 const Home = (props: HomeProps) => {
     const {
-        trendingNow,
         netflixOriginals,
+        trendingNow,
         topRated,
         actionMovies,
         comedyMovies,
@@ -30,16 +31,24 @@ const Home = (props: HomeProps) => {
     } = props;
 
     return (
-        <div className='relative h-[140vh] bg-gradient-to-t from-gray-900/10  to-[#010511] lg:h-[140vh] '>
+        <div className='relative h-[140vh] bg-gradient-to-b from-gray-900/10  to-[#010511] lg:h-[140vh] '>
             <Head>
                 <title>Home - Netflix</title>
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <Header />
 
-            <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
+            <main className='relative '>
                 <Banner netflixOriginals={netflixOriginals} />
-                <section></section>
+                <section className='pl-4 md:space-y-24 lg:pl-16 '>
+                    <Row title='Trending Now' movies={trendingNow} />
+                    <Row title='Top Rated' movies={topRated} />
+                    <Row title='Action Thriller' movies={actionMovies} />
+                    <Row title='Comedies' movies={comedyMovies} />
+                    <Row title='Scary Movies' movies={horrorMovies} />
+                    <Row title='Romance Movies' movies={romanceMovies} />
+                    <Row title='Documentaries' movies={documentaries} />
+                </section>
             </main>
         </div>
     );
@@ -49,8 +58,8 @@ export default Home;
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     const [
-        trendingNow,
         netflixOriginals,
+        trendingNow,
         topRated,
         actionMovies,
         comedyMovies,
@@ -58,8 +67,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         romanceMovies,
         documentaries,
     ] = await Promise.all([
-        moviesApi.getMoviesTrending(),
         moviesApi.getNetflixOriginals(),
+        moviesApi.getMoviesTrending(),
         moviesApi.getTopRated(),
         moviesApi.getActionMovies(),
         moviesApi.getComedyMovies(),
@@ -70,8 +79,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 
     return {
         props: {
-            trendingNow: trendingNow.results,
             netflixOriginals: netflixOriginals.results,
+            trendingNow: trendingNow.results,
             topRated: topRated.results,
             actionMovies: actionMovies.results,
             comedyMovies: comedyMovies.results,
