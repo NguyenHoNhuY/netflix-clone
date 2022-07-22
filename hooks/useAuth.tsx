@@ -36,14 +36,14 @@ const AuthContext = createContext<IAuth>({
 });
 
 // * component AuthProvider
-export const AuhtProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState(null);
-    const [innitialLoading, setInnitialLoading] = useState(true);
+    const [initialLoading, setInitialLoading] = useState(true);
     const router = useRouter();
 
-    // todo check user logined
+    // todo check user login
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -56,7 +56,7 @@ export const AuhtProvider = ({ children }: AuthProviderProps) => {
                 setLoading(true);
                 router.push('/login');
             }
-            setInnitialLoading(false);
+            setInitialLoading(false);
         });
     }, [auth]);
 
@@ -117,7 +117,7 @@ export const AuhtProvider = ({ children }: AuthProviderProps) => {
 
     return (
         <AuthContext.Provider value={memoedValue}>
-            {!innitialLoading && children}
+            {!initialLoading && children}
         </AuthContext.Provider>
     );
 };
