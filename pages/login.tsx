@@ -1,3 +1,4 @@
+import useAuth from '@/hooks/useAuth';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -15,8 +16,15 @@ export default function Login() {
         handleSubmit,
         formState: { errors },
     } = useForm<LoginInput>();
+    const { signIn, signUp, loading, logout, error } = useAuth();
 
-    const onSubmit: SubmitHandler<LoginInput> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<LoginInput> = async ({ email, password }) => {
+        if (login) {
+            await signIn(email, password);
+        } else {
+            await signUp(email, password);
+        }
+    };
 
     return (
         <div className='relative flex flex-col h-screen bg-black md:items-center md:justify-center md:bg-transparent'>

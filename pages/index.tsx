@@ -1,10 +1,14 @@
+import { modalState } from '@/atoms/modalAtom';
 import Banner from '@/components/Banner';
 import Header from '@/components/Header';
+import TrailerModal from '@/components/Modal';
+import Modal from '@/components/Modal';
 import Row from '@/components/Row';
 import { Movie } from '@/models/movies';
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { moviesApi } from '../api-client';
 
 export interface HomeProps {
@@ -29,6 +33,7 @@ const Home = (props: HomeProps) => {
         romanceMovies,
         documentaries,
     } = props;
+    const showModal = useRecoilValue(modalState);
 
     return (
         <div className='relative h-[140vh] bg-gradient-to-b from-gray-900/10  to-[#010511] lg:h-[140vh] '>
@@ -38,6 +43,7 @@ const Home = (props: HomeProps) => {
             </Head>
             <Header />
 
+            {/* slide movies */}
             <main className='relative '>
                 <Banner netflixOriginals={netflixOriginals} />
                 <section className='pl-4 md:space-y-24 lg:pl-16 '>
@@ -50,6 +56,9 @@ const Home = (props: HomeProps) => {
                     <Row title='Documentaries' movies={documentaries} />
                 </section>
             </main>
+
+            {/* modal */}
+            {showModal && <TrailerModal />}
         </div>
     );
 };

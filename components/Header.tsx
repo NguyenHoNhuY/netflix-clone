@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { BellIcon, SearchIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
+import useAuth from '@/hooks/useAuth';
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const { logout } = useAuth();
 
     //todo handle scroll by scrolly to set state for header
     useEffect(() => {
