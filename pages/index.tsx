@@ -2,12 +2,12 @@ import { modalState } from '@/atoms/modalAtom';
 import Banner from '@/components/Banner';
 import Header from '@/components/Header';
 import TrailerModal from '@/components/Modal';
-import Modal from '@/components/Modal';
+import Plans from '@/components/Plans';
 import Row from '@/components/Row';
+import useAuth from '@/hooks/useAuth';
 import { Movie } from '@/models/movies';
-import type { GetStaticProps, NextPage } from 'next';
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { moviesApi } from '../api-client';
 
@@ -34,6 +34,12 @@ const Home = (props: HomeProps) => {
         documentaries,
     } = props;
     const showModal = useRecoilValue(modalState);
+    const { loading } = useAuth();
+    const subscription = false;
+
+    if (loading || subscription === null) return null;
+
+    if (!subscription) return <Plans />;
 
     return (
         <div className='relative h-[140vh] bg-gradient-to-b from-gray-900/10  to-[#010511] lg:h-[140vh] '>

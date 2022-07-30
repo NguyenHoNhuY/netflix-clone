@@ -16,7 +16,7 @@ export default function Login() {
         handleSubmit,
         formState: { errors },
     } = useForm<LoginInput>();
-    const { signIn, signUp, loading, logout, error } = useAuth();
+    const { signIn, signUp } = useAuth();
 
     const onSubmit: SubmitHandler<LoginInput> = async ({ email, password }) => {
         if (login) {
@@ -85,13 +85,20 @@ export default function Login() {
                     </label>
                 </div>
 
-                <button className='w-full rounded bg-[#e50914] py-3 font-semibold'>
+                <button
+                    className='w-full rounded bg-[#e50914] py-3 font-semibold'
+                    onClick={() => setLogin(true)}
+                >
                     Sign In
                 </button>
 
                 <div>
                     New to Netflix?{' '}
-                    <button type='submit' className='text-white hover:underline'>
+                    <button
+                        type='submit'
+                        className='text-white hover:underline'
+                        onClick={() => setLogin(false)}
+                    >
                         Sign up now
                     </button>
                 </div>
